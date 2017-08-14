@@ -11,8 +11,8 @@
 	
 		function table(){
 				$.post('func.php', {'act':'table'}, function(data){
-						let json = $.parseJSON(data);
-						let tableContent = '';
+						var json = $.parseJSON(data);
+						var tableContent = '';
 						if(json.TeamLeagueStanding !== undefined){
 							for(let i = 0; i < json.TeamLeagueStanding.length; i++){
 								tableContent += '<div class = "stRow"  id = "t'+ json.TeamLeagueStanding[i].Team_Id +'">'+
@@ -29,11 +29,14 @@
 										'<div class = "comments">VIEW COMMENTS</div>'+
 									'</div><!--Team-->';
 							}
+							
 							$(".teamsWrapper").html(tableContent);
+						
 						}else if(!json.TeamLeagueStanding && json[0]){
 							alert(json[0]);
+						}else{
+							console.log(data);
 						}
-					
 				});
 		}//table
 		
@@ -42,7 +45,7 @@
 						$("#commentsWrap .comments").html(data);
 						$("#commentsWrap").fadeIn();
 			});
-		}
+		}//seeComments
 			
 		$(document).ready(function(){	
 			table();
