@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <title>Scores SPA, Velimir Tch.</title>
+	<script type = "text/javascript" src = "js/jquery-3.2.1.min.js"></script>
+	<script type = "text/javascript">
+	
+		var teamID = 0;
+	
+		function table(){
+				$.post('func.php', {'act':'table'}, function(data){
+						let json = $.parseJSON(data);
+						let tableContent = '';
+						if(json.TeamLeagueStanding !== undefined){
+							for(let i = 0; i < json.TeamLeagueStanding.length; i++){
+								tableContent += '<div class = "stRow"  id = "t'+ json.TeamLeagueStanding[i].Team_Id +'">'+
+										'<div class = "place">'+ (i + 1) +'</div>'+
+										'<div class = "teamName">'+ json.TeamLeagueStanding[i].Team +'</div>'+
+										'<div class = "played">'+ json.TeamLeagueStanding[i].Played +'</div>'+
+										'<div class = "won">'+ json.TeamLeagueStanding[i].Won +'</div>'+
+										'<div class = "draw">'+ json.TeamLeagueStanding[i].Draw +'</div>'+
+										'<div class = "lost">'+ json.TeamLeagueStanding[i].Lost +'</div>'+
+										'<div class = "goalsFor">'+ json.TeamLeagueStanding[i].Goals_For +'</div>'+
+										'<div class = "goalsAgainst">'+ json.TeamLeagueStanding[i].Goals_Against +'</div>'+
+										'<div class = "goalDifference">'+ json.TeamLeagueStanding[i].Goal_Difference +'</div>'+
+										'<div class = "points">'+ json.TeamLeagueStanding[i].Points +'</div>'+
+										'<div class = "comments">VIEW COMMENTS</div>'+
+									'</div><!--Team-->';
+							}
+							$(".teamsWrapper").html(tableContent);
+						}else if(!json.TeamLeagueStanding && json[0]){
+							alert(json[0]);
+						}
+					
+				});
+		}//table
+		
+		function seeComments(){
+			$.post('func.php', {'act':'seeComments', 'teamID':teamID}, function(data){
+						$("#commentsWrap .comments").html(data);
+						$("#commentsWrap").fadeIn();
+			});
+		}
+			
+		$(document).ready(function(){	
+			table();
+			setInterval(table, 18000);
+			$(".add button").click(function(){
+				$.post('func.php', {'act':'addComment', 'teamID':teamID, 'user':$(this).parent().children("input").val(), 'comment':$(this).parent().children("textarea").val()}, function(data){
+					seeComments();
+				});
+				$(".add textarea, input").val("");
+				$("#commentsWrap").animate({ scrollTop: $(".add").offset().top}, "slow");
+			});
+		});
+	
+		$(document).on('click', '.comments', function(ev){
+			teamID = $(this).parent().attr("id").substr(1);
+			seeComments();
+		});
+		
+		$(document).on('click', '.close', function(ev){
+			$(this).parent().fadeOut();
+		});
+	</script>
+</head>
+<body>
+	<div id = "scoresWidget">
+		<div id = "commentsWrap">
+			<div class = "close"></div>
+			<div class = "comments"></div>
+			<div class = "add">
+				<h3>Add a comment</h3>
+				<input type = "text" id = "name" placeholder = "Your name"/>
+				<textarea id = "comment"></textarea>
+				<button>SEND</button>
+			</div>
+		</div>
+		<div id = "standingsTable">
+			<div class = "stRow titleRow">
+				<div class = "place">Place</div>
+				<div class = "teamName">Team Name</div>
+				<div class = "played">P</div>
+				<div class = "won">W</div>
+				<div class = "draw">D</div>
+				<div class = "lost">L</div>
+				<div class = "goalsFor">F</div>
+				<div class = "goalsAgainst">A</div>
+				<div class = "goalDifference">GD</div>
+				<div class = "points">Pts</div>
+			</div><!--standingsTitle-->
+			<div class = "teamsWrapper">
+				<div class = "stRow">
+					<img src = "img/loading.gif" style = "width:160px; height:120px; display:block; margin:0 auto;" />
+				</div><!--standingsRow-->
+
+			</div><!--teamsWrapper-->
+		</div><!--standingsTable-->
+	</div>
+</body>
+</html>

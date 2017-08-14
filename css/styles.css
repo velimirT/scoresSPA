@@ -1,0 +1,133 @@
+body {
+	padding:0;
+	margin:0;
+	font-weight:400;
+}
+
+#scoresWidget{
+	width:60%;
+	padding:5px;
+	height:auto;
+	border:1px solid #444;
+	overflow:hidden;
+	margin:5px;
+	position:relative;
+}
+
+#standingsTable{
+	width:100%;
+}
+
+#commentsWrap{
+	width:100%;
+	height:100%;
+	position:absolute;
+	background-color:rgba(0,0,0,0.9);
+	left:0;
+	top:0;
+	z-index:2;
+	color:#000;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	display:none;
+}
+#commentsWrap .add h3{
+	color:#fff;
+	text-align: center;
+}
+
+#commentsWrap .add  textarea{
+	width: 60%;
+	margin: 5px 20%;
+}
+
+#commentsWrap .add  input{
+	width: 60%;
+	margin: 5px 20%;
+}
+
+#commentsWrap .add  button{
+	display: block;
+	float: right;
+	margin: 0px 20% 0px 0px;
+}
+
+#commentsWrap .comments{
+	overflow: hidden;
+}
+
+#commentsWrap .comments .comment{
+	width:calc(100% - 10px);
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: 5px;
+	box-sizing: border-box;
+	float: left;
+	padding:10px;
+	margin:5px;
+}
+
+#commentsWrap .comments .comment span{
+	float:right;
+}
+
+.close{
+	background:url("../img/close.png") center no-repeat;
+	position:absolute;
+	z-index:3;
+	top:5px;
+	right:5px;
+	width:50px;
+	height:50px;
+	cursor:pointer;
+}
+
+.stRow.titleRow{
+	border-bottom:solid 1px #666;
+	border-top:solid 1px #666;
+	line-height:26px;
+	font-size:18px;
+	background-color:#dfdfdf;
+}
+
+.stRow{
+	width:100%;
+	min-height:32px;
+	height:auto;
+	float:left;
+	border-bottom:1px solid #666;
+	position:relative;
+}
+
+.stRow > div{
+	min-width:7%;
+	width:auto;
+	font-size:18px;
+	line-height:26px;
+	height:auto;
+	padding: 3px 0;
+	float:left;
+}
+
+.stRow > div.comments{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(204, 204, 204, 0.8);
+	padding: 0;
+	opacity:0;
+	text-align:center;
+}
+
+.stRow > div.comments:hover{
+	opacity:1;
+	cursor:pointer;
+
+}
+
+.stRow > div.teamName{
+	width:37%;
+}
+
+.stRow > div.points{
+	font-weight:600;
+}
